@@ -12,7 +12,7 @@ Foyer can currently only be installed via Home Manager.
 
 1. Add Foyer as an input to your configuration flake:
     ```nix
-    inputs.foyer.url = "github:jerbaroo/dots?dir=foyer";
+    inputs.foyer.url = "github:jerbaroo/foyer";
     ```
 2. Include the Home Manager module:
     ```nix
