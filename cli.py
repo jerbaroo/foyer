@@ -8,17 +8,14 @@ ACTIONS = click.Choice(["show", "hide", "toggle"])
 ACTION_QUICKSHELL = {"show": "setShown", "hide": "setHidden", "toggle": "toggle"}
 
 
-def control(entry: str, target: str, method: str) -> None:
+def control(entry: str, *arguments: str) -> None:
     config_home = Path(os.environ.get("XDG_CONFIG_HOME") or Path.home() / ".config")
     config_dir = Path(os.environ.get("FOYER_CONFIG_DIR") or config_home / "foyer")
     args = [
         "quickshell",
         "-p",
         str(config_dir / f"{entry}.qml"),
-        "ipc",
-        "call",
-        target,
-        method,
+        *arguments,
     ]
     try:
         os.execvp("quickshell", args)
@@ -28,21 +25,21 @@ def control(entry: str, target: str, method: str) -> None:
 
 @click.group()
 def cli() -> None:
-    """Control a running Foyer instance."""
+    """Control Foyer."""
 
 
 @cli.command()
 @click.argument("action", type=ACTIONS)
 def bar(action: str) -> None:
     """Show, hide, or toggle the bar."""
-    control("bar", "bar", ACTION_QUICKSHELL[action])
+    control("bar", "ipc", "call", "bar", ACTION_QUICKSHELL[action])
 
 
 @cli.command()
 @click.argument("action", type=ACTIONS)
 def launcher(action: str) -> None:
     """Show, hide, or toggle the application launcher."""
-    control("app_launcher", "app-launcher", ACTION_QUICKSHELL[action])
+    control("app_launcher", "ipc", "call", "app-launcher", ACTION_QUICKSHELL[action])
 
 
 @cli.command()
@@ -54,7 +51,13 @@ def notifications(action: str) -> None:
         "hide": "setNotificationCenterClosed",
         "toggle": "toggleNotificationCenter",
     }
-    control("bar", "notifications", methods[action])
+    control("bar", "ipc", "call", "notifications", methods[action])
+
+
+@cli.command()
+def lock() -> None:
+    """Lock the session until authenticated."""
+    control("lock_screen", "--no-duplicate")
 
 
 if __name__ == "__main__":

@@ -114,27 +114,27 @@ wayland.windowManager.hyprland.settings.layer_rule = [
 
 ### Control commands
 
+Each surface supports `show`, `hide`, and `toggle`. These commands control
+running instances; they don't start services. Hiding the bar keeps
+notifications, the OSD, and sleep/lock inhibitors running.
+
 ```bash
-foyer launcher toggle
-foyer notifications show
-foyer notifications hide
-foyer bar toggle
+foyer bar hide
+foyer launcher show
+foyer notifications toggle
 ```
 
-Each surface supports `show`, `hide`, and `toggle`. These commands control running
-instances; they do not start services. Hiding the bar keeps notifications, the
-OSD, and awake-mode inhibitors running.
+`foyer lock` starts a minimal lock screen using the host's `login` PAM service.
 
-Use `lib.getExe config.programs.foyer.package` in Home Manager keybindings.
-The dev shell points `foyer` at the checkout; outside it the command uses
-`$XDG_CONFIG_HOME/foyer`. `FOYER_CONFIG_DIR` can select another running config.
+To set a keybinding to toggle notifications use `"${lib.getExe
+config.programs.foyer.package} bar toggle"` in Home Manager keybindings.
 
 ### Awake modes
 
-“No sleep” holds a systemd sleep inhibitor. “No lock” also holds a systemd idle
-inhibitor, pausing automatic locking and screen-off. Manual locking remains
-available. The idle daemon must honour logind idle inhibitors; [hypridle does so
-by default](https://wiki.hypr.land/Hypr-Ecosystem/hypridle/) with
+“No sleep” holds a systemd sleep inhibitor. “No lock” holds a systemd idle
+inhibitor, pausing automatic locking and screen-off. Manual locking is still
+available. Your idle daemon must honour logind idle inhibitors; [hypridle does
+so by default](https://wiki.hypr.land/Hypr-Ecosystem/hypridle/) with
 `ignore_systemd_inhibit = false`.
 
 ### Installed resources
@@ -145,8 +145,6 @@ Foyer installs its configuration under `$XDG_CONFIG_HOME/foyer` (normally
 through `programs.foyer.layers`.
 
 ## Development
-
-Run commands from the Foyer directory.
 
 ### Development environment
 
