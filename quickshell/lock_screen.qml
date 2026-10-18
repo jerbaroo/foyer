@@ -33,8 +33,8 @@ Scope {
                 echoMode: TextInput.Password
                 enabled: pam.responseRequired
                 focus: true
-                placeholderText: pam.message || "Password"
-                width: 240
+                placeholderText: "Password"
+                width: 300
 
                 onAccepted: {
                     pam.respond(text);
