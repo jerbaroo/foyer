@@ -469,6 +469,11 @@ PanelWindow {
                             icon: "system-lock-screen-symbolic"
                         },
                         {
+                            label: "Log out",
+                            value: "hyprctl dispatch 'hl.dsp.exit()'",
+                            icon: "system-log-out-symbolic"
+                        },
+                        {
                             label: "Suspend",
                             value: "systemctl suspend",
                             icon: "system-suspend-symbolic"
@@ -487,7 +492,7 @@ PanelWindow {
                     onSelected: value => Launcher.app(value)
                 }
             }
-            // No panelTitle: the four buttons are self-explanatory, so the
+            // No panelTitle: the actions are self-explanatory, so the
             // panel shows them alone rather than heading them with "Power".
         }
     }
