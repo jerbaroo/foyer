@@ -13,6 +13,7 @@ let
       backgroundOpacity = toString settings.backgroundOpacity;
       layers = builtins.toJSON settings.layers;
       rounding = toString settings.layout.cornerRadiusPx;
+      workspaceRounding = toString settings.layout.workspaceCornerRadiusPx;
       searchUrl = builtins.toJSON "http://127.0.0.1:${toString settings.search.port}";
       shellFontName = builtins.toJSON settings.font.name;
       shellFontSize = toString settings.font.size;

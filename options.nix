@@ -1,4 +1,9 @@
-{ lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   inherit (lib) mkOption types;
   # A curve and a duration.
@@ -140,6 +145,12 @@ in
         default = defaults.layout.cornerRadiusPx;
         description = "Corner radius in pixels.";
         type = types.ints.unsigned;
+      };
+      workspaceCornerRadiusPx = mkOption {
+        default = config.programs.foyer.layout.cornerRadiusPx;
+        defaultText = lib.literalExpression "config.programs.foyer.layout.cornerRadiusPx";
+        description = "Corner radius in pixels for workspace buttons, including the new-workspace button.";
+        type = types.addCheck types.number (x: x >= 0);
       };
       gapPx = mkOption {
         default = defaults.layout.gapPx;

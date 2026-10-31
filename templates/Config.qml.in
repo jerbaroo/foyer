@@ -11,6 +11,7 @@ QtObject {
     readonly property int borderSize: @borderSize@
     readonly property int gap: @gap@
     readonly property int rounding: @rounding@
+    readonly property real workspaceRounding: @workspaceRounding@
 
     // Standard logind inhibitors are held by child processes owned by the shell.
     readonly property string inhibitCommand: @inhibitCommand@
@@ -87,7 +88,7 @@ QtObject {
         chip: {
             height: chipHeight,
             paddingH: 14,
-            radius: rounding,
+            radius: workspaceRounding,
             gap: chipGap,
             contentGap: 5,
         },

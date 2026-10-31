@@ -55,6 +55,7 @@ Foyer can currently only be installed via Home Manager.
       layout = {
         borderWidthPx = 2;
         cornerRadiusPx = 8;
+        workspaceCornerRadiusPx = 4; # defaults to cornerRadiusPx when omitted
         gapPx = 16;
       };
       palette = {

@@ -55,9 +55,10 @@
     notifications = "foyer-notifications";
     osd = "foyer-osd";
   };
-  layout = {
+  layout = rec {
     borderWidthPx = 2;
     cornerRadiusPx = 8;
+    workspaceCornerRadiusPx = cornerRadiusPx;
     gapPx = 16;
   };
   palette = {

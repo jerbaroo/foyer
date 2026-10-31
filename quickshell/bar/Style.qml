@@ -16,7 +16,7 @@ Singleton {
     // Chips.
     readonly property int chipHeight: Config.bar.chip.height
     readonly property int chipPaddingH: Config.bar.chip.paddingH
-    readonly property int chipRadius: Config.bar.chip.radius
+    readonly property real chipRadius: Config.bar.chip.radius
     readonly property int chipGap: Config.bar.chip.gap
     readonly property int chipContentGap: Config.bar.chip.contentGap
     readonly property int workspaceGap: Config.bar.workspace.gap
