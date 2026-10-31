@@ -45,7 +45,7 @@ Scope {
         Layout.fillWidth: true
         implicitHeight: mainLayout.implicitHeight + 32
         border.color: urgency === NotificationUrgency.Critical ? Config.danger : Config.accent
-        border.width: borderEnabled ? Config.borderSize : 0
+        border.width: borderEnabled ? Config.notificationBorderSize : 0
         color: background
         radius: Config.notification.radius
 
@@ -427,7 +427,7 @@ Scope {
                 topMargin: Config.notification.top
             }
             border.color: Config.accent
-            border.width: Config.borderSize
+            border.width: Config.notificationCenterBorderSize
             // Near-transparent glass, matching the bar and launcher, so the
             // Hyprland blur rule shows through. The full-screen dismiss layer
             // stays fully transparent so only this panel is blurred.

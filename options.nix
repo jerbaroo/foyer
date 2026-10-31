@@ -141,6 +141,24 @@ in
         description = "Border width in pixels.";
         type = types.ints.unsigned;
       };
+      launcherBorderWidthPx = mkOption {
+        default = config.programs.foyer.layout.borderWidthPx;
+        defaultText = lib.literalExpression "config.programs.foyer.layout.borderWidthPx";
+        description = "Border width in pixels for the application launcher panel; zero disables the border.";
+        type = types.ints.unsigned;
+      };
+      notificationBorderWidthPx = mkOption {
+        default = config.programs.foyer.layout.borderWidthPx;
+        defaultText = lib.literalExpression "config.programs.foyer.layout.borderWidthPx";
+        description = "Border width in pixels for the notification popup cards; zero disables the border.";
+        type = types.ints.unsigned;
+      };
+      notificationCenterBorderWidthPx = mkOption {
+        default = config.programs.foyer.layout.borderWidthPx;
+        defaultText = lib.literalExpression "config.programs.foyer.layout.borderWidthPx";
+        description = "Border width in pixels for the notification center panel; zero disables the border.";
+        type = types.ints.unsigned;
+      };
       cornerRadiusPx = mkOption {
         default = defaults.layout.cornerRadiusPx;
         description = "Corner radius in pixels.";

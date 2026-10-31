@@ -54,6 +54,9 @@ Foyer can currently only be installed via Home Manager.
       };
       layout = {
         borderWidthPx = 2;
+        launcherBorderWidthPx = 0; # defaults to borderWidthPx when omitted
+        notificationBorderWidthPx = 0; # defaults to borderWidthPx when omitted
+        notificationCenterBorderWidthPx = 0; # defaults to borderWidthPx when omitted
         cornerRadiusPx = 8;
         workspaceCornerRadiusPx = 4; # defaults to cornerRadiusPx when omitted
         gapPx = 16;

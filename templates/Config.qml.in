@@ -9,6 +9,9 @@ QtObject {
 
     // Shell appearance and integration settings supplied by the host.
     readonly property int borderSize: @borderSize@
+    readonly property int launcherBorderSize: @launcherBorderSize@
+    readonly property int notificationBorderSize: @notificationBorderSize@
+    readonly property int notificationCenterBorderSize: @notificationCenterBorderSize@
     readonly property int gap: @gap@
     readonly property int rounding: @rounding@
     readonly property real workspaceRounding: @workspaceRounding@

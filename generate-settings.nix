@@ -7,6 +7,9 @@ let
     {
       accent = settings.accent;
       borderSize = toString settings.layout.borderWidthPx;
+      launcherBorderSize = toString settings.layout.launcherBorderWidthPx;
+      notificationBorderSize = toString settings.layout.notificationBorderWidthPx;
+      notificationCenterBorderSize = toString settings.layout.notificationCenterBorderWidthPx;
       inhibitCommand = builtins.toJSON "${pkgs.systemd}/bin/systemd-inhibit";
       sleepCommand = builtins.toJSON "${pkgs.coreutils}/bin/sleep";
       gap = toString settings.layout.gapPx;

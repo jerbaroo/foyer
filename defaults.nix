@@ -57,6 +57,10 @@
   };
   layout = rec {
     borderWidthPx = 2;
+    launcherBorderWidthPx = borderWidthPx;
+    notificationBorderWidthPx = borderWidthPx;
+    notificationCenterBorderWidthPx = borderWidthPx;
+
     cornerRadiusPx = 8;
     workspaceCornerRadiusPx = cornerRadiusPx;
     gapPx = 16;
