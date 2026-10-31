@@ -136,7 +136,7 @@ Item {
     }
 
     // Vertical exclusive options, current highlighted. Options are
-    // { label, value } with an optional icon name. Used by: perf mode, power.
+    // { label, value } with an optional icon name. Used by: perf mode, awake, power.
     component ModeList: ColumnLayout {
         id: modeList
 
@@ -159,14 +159,23 @@ Item {
                 border.width: 1
                 onClicked: modeList.selected(mode.modelData.value)
 
-                Row {
+                RowLayout {
                     anchors.left: parent.left
                     anchors.leftMargin: Style.controlPadding
+                    anchors.right: parent.right
+                    anchors.rightMargin: Style.controlPadding
                     anchors.verticalCenter: parent.verticalCenter
                     spacing: Style.controlSpacing
 
+                    PanelText {
+                        Layout.fillWidth: true
+                        horizontalAlignment: Text.AlignLeft
+                        elide: Text.ElideRight
+                        text: mode.modelData.label
+                    }
+
                     IconImage {
-                        anchors.verticalCenter: parent.verticalCenter
+                        Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
                         implicitSize: Style.iconSize
                         visible: (mode.modelData.icon ?? "") !== ""
                         source: visible ? Quickshell.iconPath(mode.modelData.icon) : ""
@@ -177,11 +186,6 @@ Item {
                             colorization: 1
                             colorizationColor: Style.panelText
                         }
-                    }
-
-                    PanelText {
-                        anchors.verticalCenter: parent.verticalCenter
-                        text: mode.modelData.label
                     }
                 }
             }
