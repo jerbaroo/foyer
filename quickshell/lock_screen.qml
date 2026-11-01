@@ -1,23 +1,20 @@
+//@ pragma Env QT_QUICK_BACKEND=software
+
 pragma ComponentBehavior: Bound
 
 import QtQuick
-import QtQuick.Controls
 import Quickshell
-import Quickshell.Services.Pam
 import Quickshell.Wayland
+import FoyerConfig 1.0
+import qs.lock
 
 Scope {
-    PamContext {
-        id: pam
-        active: true
+    Authentication {
+        id: auth
 
-        onCompleted: result => {
-            if (result === PamResult.Success) {
-                lock.locked = false;
-                Qt.quit();
-            } else if (result !== PamResult.Error) {
-                Qt.callLater(pam.start);
-            }
+        onUnlocked: {
+            lock.locked = false;
+            Qt.quit();
         }
     }
 
@@ -25,21 +22,17 @@ Scope {
         id: lock
         locked: true
 
+        onSecureChanged: {
+            if (secure)
+                auth.start();
+        }
+
         WlSessionLockSurface {
-            color: "black"
+            color: Config.background
 
-            TextField {
-                anchors.centerIn: parent
-                echoMode: TextInput.Password
-                enabled: pam.responseRequired
-                focus: true
-                placeholderText: "Password"
-                width: 300
-
-                onAccepted: {
-                    pam.respond(text);
-                    clear();
-                }
+            LockView {
+                anchors.fill: parent
+                authentication: auth
             }
         }
     }

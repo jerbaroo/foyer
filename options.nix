@@ -44,7 +44,9 @@ in
         type = types.str;
       };
       lockScreen = mkOption {
-        description = "Command to lock the screen.";
+        default = "${lib.getExe config.programs.foyer.package} lock";
+        defaultText = lib.literalExpression ''"''${lib.getExe config.programs.foyer.package} lock"'';
+        description = "Command to lock the screen. Defaults to Foyer's built-in lock screen.";
         type = types.str;
       };
       systemMonitor = mkOption {

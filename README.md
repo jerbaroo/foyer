@@ -5,6 +5,7 @@ Foyer is a Hyprland-specific QuickShell-based desktop shell with:
 - notifications
 - on-screen display
 - application launcher
+- lock screen
 
 ## Install
 
@@ -37,7 +38,6 @@ Foyer can currently only be installed via Home Manager.
       actions = {
         audioSettings = lib.getExe pkgs.pwvucontrol; # required
         bluetoothSettings = lib.getExe' pkgs.blueman "blueman-manager"; # required
-        lockScreen = lib.getExe pkgs.hyprlock; # required
         systemMonitor = "${lib.getExe pkgs.kitty} ${lib.getExe pkgs.btop}"; # required
       };
       animation = {
@@ -129,6 +129,15 @@ foyer notifications toggle
 ```
 
 `foyer lock` starts a minimal lock screen using the host's `login` PAM service.
+It covers every monitor and uses your shell's colours and font. Type your password
+and press Enter to unlock; Escape clears the field. Authentication failures keep
+the session locked and allow another attempt.
+The lock screen uses software rendering so it does not depend on OpenGL/EGL
+being available.
+
+The bar's lock action uses this screen by default. Set `actions.lockScreen` to
+use another locker. For automatic locking, configure your idle daemon to run
+`foyer lock`. The host must provide `/etc/pam.d/login` for authentication.
 
 To set a keybinding to toggle notifications use `"${lib.getExe
 config.programs.foyer.package} bar toggle"` in Home Manager keybindings.
