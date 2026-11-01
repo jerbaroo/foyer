@@ -18,6 +18,10 @@ Scope {
         }
     }
 
+    KeyboardState {
+        id: keyboard
+    }
+
     WlSessionLock {
         id: lock
         locked: true
@@ -33,6 +37,7 @@ Scope {
             LockView {
                 anchors.fill: parent
                 authentication: auth
+                capsLock: keyboard.capsLock
             }
         }
     }

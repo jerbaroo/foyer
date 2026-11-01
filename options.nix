@@ -178,6 +178,24 @@ in
         type = types.ints.unsigned;
       };
     };
+    lockScreen = {
+      capsLockColor = mkOption {
+        default = defaults.lockScreen.capsLockColor;
+        description = "Password outline colour while Caps Lock is enabled.";
+        type = colour;
+      };
+      errorColor = mkOption {
+        default = config.programs.foyer.palette.danger;
+        defaultText = lib.literalExpression "config.programs.foyer.palette.danger";
+        description = "Password outline colour after an authentication error.";
+        type = colour;
+      };
+      errorDurationMs = mkOption {
+        default = defaults.lockScreen.errorDurationMs;
+        description = "How long the error outline overrides other colours, in milliseconds. Zero disables it.";
+        type = types.ints.unsigned;
+      };
+    };
     package = mkOption {
       default = pkgs.callPackage ./cli.nix { };
       description = "Package providing the Foyer control command.";

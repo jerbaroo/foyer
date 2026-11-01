@@ -15,6 +15,9 @@ let
       gap = toString settings.layout.gapPx;
       backgroundOpacity = toString settings.backgroundOpacity;
       layers = builtins.toJSON settings.layers;
+      lockCapsLockColor = settings.lockScreen.capsLockColor;
+      lockErrorColor = settings.lockScreen.errorColor or settings.palette.danger;
+      lockErrorDurationMs = toString settings.lockScreen.errorDurationMs;
       rounding = toString settings.layout.cornerRadiusPx;
       workspaceRounding = toString settings.layout.workspaceCornerRadiusPx;
       searchUrl = builtins.toJSON "http://127.0.0.1:${toString settings.search.port}";

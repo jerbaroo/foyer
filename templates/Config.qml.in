@@ -7,6 +7,12 @@ QtObject {
     // Read-only layer namespaces exported by the Home Manager module.
     readonly property var layers: @layers@
 
+    readonly property var lockScreen: ({
+        capsLockColor: "@lockCapsLockColor@",
+        errorColor: "@lockErrorColor@",
+        errorDurationMs: @lockErrorDurationMs@,
+    })
+
     // Shell appearance and integration settings supplied by the host.
     readonly property int borderSize: @borderSize@
     readonly property int launcherBorderSize: @launcherBorderSize@

@@ -11,15 +11,23 @@ Scope {
     property string error: ""
     readonly property string message: pam.message
     readonly property bool messageIsError: pam.messageIsError
-    readonly property bool responseRequired: pam.responseRequired
+    property bool responsePending: false
+    readonly property bool responseRequired: pam.active && pam.responseRequired && !responsePending
     readonly property bool responseVisible: pam.responseVisible
 
     signal clearInput
+    signal failed
     signal unlocked
 
+    function fail(message: string): void {
+        error = message;
+        failed();
+    }
+
     function respond(response: string): void {
-        if (!pam.responseRequired)
+        if (!responseRequired)
             return;
+        responsePending = true;
         error = "";
         clearInput();
         pam.respond(response);
@@ -30,7 +38,7 @@ Scope {
             return;
         error = "";
         if (!pam.start())
-            error = "Authentication unavailable. Try again.";
+            fail("Authentication unavailable. Try again.");
     }
 
     PamContext {
@@ -38,15 +46,20 @@ Scope {
 
         config: "login"
 
+        onPamMessage: {
+            if (pam.responseRequired)
+                root.responsePending = false;
+        }
+
         onCompleted: result => {
             root.clearInput();
             if (result === PamResult.Success) {
                 root.unlocked();
             } else if (result === PamResult.Failed) {
-                root.error = "Authentication failed. Try again.";
+                root.fail("Authentication failed. Try again.");
                 Qt.callLater(pam.start);
             } else {
-                root.error = "Authentication unavailable. Try again.";
+                root.fail("Authentication unavailable. Try again.");
             }
         }
     }

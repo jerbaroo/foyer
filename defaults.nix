@@ -65,6 +65,10 @@
     workspaceCornerRadiusPx = cornerRadiusPx;
     gapPx = 16;
   };
+  lockScreen = {
+    capsLockColor = "#f9e2af";
+    errorDurationMs = 3000;
+  };
   palette = {
     background = "#11111b";
     controlActive = "#313244";

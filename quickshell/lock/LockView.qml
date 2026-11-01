@@ -9,6 +9,7 @@ Rectangle {
     id: root
 
     required property Authentication authentication
+    property bool capsLock: false
 
     color: Config.background
     focus: true
@@ -21,6 +22,12 @@ Rectangle {
         precision: SystemClock.Minutes
     }
 
+    Timer {
+        id: errorFeedback
+
+        interval: Config.lockScreen.errorDurationMs
+    }
+
     Connections {
         target: root.authentication
 
@@ -31,6 +38,11 @@ Rectangle {
 
         function onClearInput(): void {
             response.clear();
+        }
+
+        function onFailed(): void {
+            if (errorFeedback.interval > 0)
+                errorFeedback.restart();
         }
     }
 
@@ -61,7 +73,7 @@ Rectangle {
             id: response
 
             background: Rectangle {
-                border.color: response.activeFocus ? Config.accent : Config.controlBorder
+                border.color: errorFeedback.running ? Config.lockScreen.errorColor : root.capsLock ? Config.lockScreen.capsLockColor : Config.accent
                 border.width: 1
                 color: Config.fieldBackground
                 radius: Config.rounding
@@ -86,6 +98,5 @@ Rectangle {
             }
             Keys.onEscapePressed: clear()
         }
-
     }
 }

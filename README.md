@@ -139,6 +139,18 @@ The bar's lock action uses this screen by default. Set `actions.lockScreen` to
 use another locker. For automatic locking, configure your idle daemon to run
 `foyer lock`. The host must provide `/etc/pam.d/login` for authentication.
 
+The password outline uses the accent colour normally, the Caps Lock colour when
+enabled, and the error colour for the configured duration after each failure.
+Error feedback takes priority and does not delay the next authentication attempt.
+
+```nix
+programs.foyer.lockScreen = {
+  capsLockColor = "#f9e2af";
+  errorColor = "#f38ba8"; # defaults to palette.danger
+  errorDurationMs = 3000;
+};
+```
+
 To set a keybinding to toggle notifications use `"${lib.getExe
 config.programs.foyer.package} bar toggle"` in Home Manager keybindings.
 
