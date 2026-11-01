@@ -95,6 +95,8 @@ Scope {
     }
 
     PanelWindow {
+        // Keep volume and brightness feedback visible over fullscreen apps.
+        WlrLayershell.layer: WlrLayer.Overlay
         // Own blur namespace, faded in place, like the other popups (hyprland.nix).
         WlrLayershell.namespace: Config.layers.osd
 
