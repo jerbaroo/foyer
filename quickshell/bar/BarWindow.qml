@@ -489,7 +489,7 @@ PanelWindow {
                             icon: "system-shutdown-symbolic"
                         }
                     ]
-                    onSelected: value => Launcher.app(value)
+                    onSelected: command => Quickshell.execDetached(["sh", "-c", command])
                 }
             }
             // No panelTitle: the actions are self-explanatory, so the
