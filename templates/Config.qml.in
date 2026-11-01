@@ -8,7 +8,9 @@ QtObject {
     readonly property var layers: @layers@
 
     readonly property var lockScreen: ({
+        borderWidthPx: @lockBorderWidthPx@,
         capsLockColor: "@lockCapsLockColor@",
+        disabledColor: "@lockDisabledColor@",
         errorColor: "@lockErrorColor@",
         errorDurationMs: @lockErrorDurationMs@,
     })

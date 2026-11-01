@@ -15,7 +15,9 @@ let
       gap = toString settings.layout.gapPx;
       backgroundOpacity = toString settings.backgroundOpacity;
       layers = builtins.toJSON settings.layers;
+      lockBorderWidthPx = toString settings.lockScreen.borderWidthPx;
       lockCapsLockColor = settings.lockScreen.capsLockColor;
+      lockDisabledColor = settings.lockScreen.disabledColor or settings.palette.textMuted;
       lockErrorColor = settings.lockScreen.errorColor or settings.palette.danger;
       lockErrorDurationMs = toString settings.lockScreen.errorDurationMs;
       rounding = toString settings.layout.cornerRadiusPx;

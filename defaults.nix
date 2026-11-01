@@ -66,6 +66,7 @@
     gapPx = 16;
   };
   lockScreen = {
+    borderWidthPx = 1;
     capsLockColor = "#f9e2af";
     errorDurationMs = 3000;
   };

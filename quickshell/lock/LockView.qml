@@ -73,12 +73,12 @@ Rectangle {
             id: response
 
             background: Rectangle {
-                border.color: errorFeedback.running ? Config.lockScreen.errorColor : root.capsLock ? Config.lockScreen.capsLockColor : Config.accent
-                border.width: 1
+                border.color: errorFeedback.running ? Config.lockScreen.errorColor : !response.enabled ? Config.lockScreen.disabledColor : root.capsLock ? Config.lockScreen.capsLockColor : Config.accent
+                border.width: Config.lockScreen.borderWidthPx
                 color: Config.fieldBackground
                 radius: Config.rounding
             }
-            color: Config.text
+            color: enabled ? Config.text : Config.lockScreen.disabledColor
             echoMode: root.authentication.responseVisible ? TextInput.Normal : TextInput.Password
             enabled: root.authentication.responseRequired
             focus: true

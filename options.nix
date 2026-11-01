@@ -179,9 +179,20 @@ in
       };
     };
     lockScreen = {
+      borderWidthPx = mkOption {
+        default = defaults.lockScreen.borderWidthPx;
+        description = "Password outline width in pixels; zero disables the outline.";
+        type = types.ints.unsigned;
+      };
       capsLockColor = mkOption {
         default = defaults.lockScreen.capsLockColor;
         description = "Password outline colour while Caps Lock is enabled.";
+        type = colour;
+      };
+      disabledColor = mkOption {
+        default = config.programs.foyer.palette.textMuted;
+        defaultText = lib.literalExpression "config.programs.foyer.palette.textMuted";
+        description = "Password outline and text colour while input is disabled, unless error feedback is active.";
         type = colour;
       };
       errorColor = mkOption {
