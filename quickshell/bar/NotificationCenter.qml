@@ -1,4 +1,5 @@
 import QtQuick
+import QtQuick.Controls
 import QtQuick.Effects
 import QtQuick.Layouts
 import Quickshell
@@ -432,7 +433,7 @@ Scope {
             // Hyprland blur rule shows through. The full-screen dismiss layer
             // stays fully transparent so only this panel is blurred.
             color: Config.glass
-            implicitHeight: centerColumn.implicitHeight + 32
+            implicitHeight: Math.min(centerColumn.implicitHeight + 32, Math.max(0, parent.height - 2 * Config.notification.top))
             implicitWidth: 512
             radius: Config.notification.radius
 
@@ -531,42 +532,61 @@ Scope {
                     }
                 }
 
-                Repeater {
-                    model: history
+                ScrollView {
+                    id: historyScroll
 
-                    delegate: NotificationCard {
-                        id: historyCard
+                    Layout.fillHeight: true
+                    Layout.fillWidth: true
+                    Layout.minimumHeight: 0
+                    clip: true
+                    contentWidth: availableWidth
+                    implicitHeight: historyColumn.implicitHeight
+                    visible: history.count > 0
 
-                        required property int index
-                        required property int notificationId
+                    ColumnLayout {
+                        id: historyColumn
 
-                        // The still-alive notification behind this history entry,
-                        // or null once the server has closed it. Kept alive via
-                        // 'n.tracked = true' so its actions remain invokable.
-                        readonly property var trackedNotification: {
-                            let values = server.trackedNotifications.values;
-                            for (let i = 0; i < values.length; i++) {
-                                if (values[i].id === notificationId) {
-                                    return values[i];
+                        spacing: centerColumn.spacing
+                        width: historyScroll.availableWidth
+
+                        Repeater {
+                            model: history
+
+                            delegate: NotificationCard {
+                                id: historyCard
+
+                                required property int index
+                                required property int notificationId
+
+                                // The still-alive notification behind this history entry,
+                                // or null once the server has closed it. Kept alive via
+                                // 'n.tracked = true' so its actions remain invokable.
+                                readonly property var trackedNotification: {
+                                    let values = server.trackedNotifications.values;
+                                    for (let i = 0; i < values.length; i++) {
+                                        if (values[i].id === notificationId) {
+                                            return values[i];
+                                        }
+                                    }
+                                    return null;
+                                }
+
+                                // Actions are only available while the notification is
+                                // still tracked by the server.
+                                actions: Notifications.buttonActions(historyCard.trackedNotification)
+                                // Transparent so the card is part of the frosted glass
+                                // panel rather than an opaque block on top of it.
+                                background: "transparent"
+                                borderEnabled: false
+                                dismissAction: () => {
+                                    historyCard.trackedNotification?.dismiss();
+                                    // Update the state before the delegate is destroyed.
+                                    if (history.count <= 1) {
+                                        root.centerOpen = false;
+                                    }
+                                    history.remove(index);
                                 }
                             }
-                            return null;
-                        }
-
-                        borderEnabled: false
-                        // Transparent so the card is part of the frosted glass
-                        // panel rather than an opaque block on top of it.
-                        background: "transparent"
-                        // Actions are only available while the notification is
-                        // still tracked by the server.
-                        actions: Notifications.buttonActions(historyCard.trackedNotification)
-                        dismissAction: () => {
-                            historyCard.trackedNotification?.dismiss();
-                            // Update the state before the delegate is destroyed.
-                            if (history.count <= 1) {
-                                root.centerOpen = false;
-                            }
-                            history.remove(index);
                         }
                     }
                 }
