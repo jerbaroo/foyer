@@ -1,5 +1,8 @@
 import os
 from pathlib import Path
+import shutil
+import subprocess
+import tempfile
 
 import click
 
@@ -8,17 +11,20 @@ ACTIONS = click.Choice(["show", "hide", "toggle"])
 ACTION_QUICKSHELL = {"show": "setShown", "hide": "setHidden", "toggle": "toggle"}
 
 
-def control(entry: str, *arguments: str) -> None:
+def command(entry: str, *arguments: str) -> list[str]:
     config_home = Path(os.environ.get("XDG_CONFIG_HOME") or Path.home() / ".config")
     config_dir = Path(os.environ.get("FOYER_CONFIG_DIR") or config_home / "foyer")
-    args = [
+    return [
         "quickshell",
         "-p",
         str(config_dir / f"{entry}.qml"),
         *arguments,
     ]
+
+
+def control(entry: str, *arguments: str) -> None:
     try:
-        os.execvp("quickshell", args)
+        os.execvp("quickshell", command(entry, *arguments))
     except OSError as error:
         raise click.ClickException(str(error)) from error
 
@@ -58,6 +64,27 @@ def notifications(action: str) -> None:
 def lock() -> None:
     """Lock the session until authenticated."""
     control("lock_screen", "--no-duplicate")
+
+
+@cli.command()
+def text() -> None:
+    """Display plain text from standard input until dismissed."""
+    if click.get_text_stream("stdin").isatty():
+        raise click.UsageError("Pipe text to this command or redirect a file into it.")
+    try:
+        with tempfile.NamedTemporaryFile(prefix="foyer-text-") as source:
+            shutil.copyfileobj(click.get_binary_stream("stdin"), source)
+            source.flush()
+            result = subprocess.run(
+                command("text"),
+                env={**os.environ, "FOYER_TEXT_FILE": source.name},
+                stdin=subprocess.DEVNULL,
+            )
+    except OSError as error:
+        raise click.ClickException(str(error)) from error
+    raise click.exceptions.Exit(
+        result.returncode if result.returncode >= 0 else 128 - result.returncode
+    )
 
 
 if __name__ == "__main__":

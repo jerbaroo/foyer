@@ -6,6 +6,7 @@ Foyer is a Hyprland-specific QuickShell-based desktop shell with:
 - on-screen display
 - application launcher
 - lock screen
+- plain-text viewer
 
 ## Install
 
@@ -127,6 +128,18 @@ foyer bar hide
 foyer launcher show
 foyer notifications toggle
 ```
+
+`foyer text` reads standard input to EOF and opens a scrollable plain-text panel.
+It preserves whitespace and displays markup literally. Press Escape or click
+outside the panel to close it. Each invocation opens its own viewer and waits
+until it is dismissed; no service is required.
+
+```bash
+printf 'SUPER + RETURN    Terminal\nSUPER + Q         Close window\n' | foyer text
+foyer text < keybindings-help.txt
+```
+
+During development, use `python cli.py text` inside `nix develop`.
 
 `foyer lock` starts a minimal lock screen using the host's `login` PAM service.
 It covers every monitor and uses your shell's colours and font. Type your password

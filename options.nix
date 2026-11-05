@@ -136,6 +136,12 @@ in
         readOnly = true;
         type = types.str;
       };
+      text = mkOption {
+        default = defaults.layers.text;
+        description = "Layer namespace used by the text viewer.";
+        readOnly = true;
+        type = types.str;
+      };
     };
     layout = {
       borderWidthPx = mkOption {

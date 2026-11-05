@@ -2,7 +2,6 @@ import QtQuick
 import QtQuick.Controls
 import Quickshell
 import Quickshell.Io
-import Quickshell.Wayland
 import Quickshell.Widgets
 
 import FoyerConfig 1.0
@@ -78,21 +77,11 @@ Scope {
         root.appLauncherOpen = false;
     }
 
-    PanelWindow {
+    OverlayWindow {
         id: window
 
-        // Own layer namespace so Hyprland's blur rule (see hyprland.nix) applies
-        // the same liquid-glass blur as the menu bar.
-        WlrLayershell.namespace: Config.layers.launcher
+        layerNamespace: Config.layers.launcher
 
-        anchors {
-            bottom: true
-            left: true
-            right: true
-            top: true
-        }
-        color: "transparent"
-        focusable: true
         visible: root.appLauncherOpen
 
         MouseArea {
@@ -100,19 +89,11 @@ Scope {
             onClicked: root.appLauncherOpen = false
         }
 
-        Rectangle {
+        PanelSurface {
             anchors.centerIn: parent
-            border.color: Config.accent
             border.width: Config.launcherBorderSize
-            // Near-transparent glass, matching the menu bar, so the Hyprland
-            // blur rule shows through as the same liquid glass. The tint sits
-            // above the compositor's ignore_alpha so it is blurred rather than
-            // passed through; the full-screen dismiss layer stays transparent.
-            color: Config.glass
-            // Responsive: a fraction of the screen, capped on large monitors.
             implicitHeight: Math.min(Config.launcher.maxHeight, window.height * Config.launcher.heightFraction)
             implicitWidth: Math.min(Config.launcher.maxWidth, window.width * Config.launcher.widthFraction)
-            radius: Config.launcher.radius
 
             // Trap mouse clicks, to avoid bubbling up to the dismiss layer.
             MouseArea {

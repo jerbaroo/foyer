@@ -116,13 +116,12 @@ Scope {
         // Frosted card, top-centre. Only this (tinted above the blur rule's
         // ignore_alpha) is blurred; the rest of the surface is transparent and
         // passes through.
-        Rectangle {
+        PanelSurface {
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.top: parent.top
             anchors.topMargin: Config.osd.margin
-            color: Config.glass
+            border.width: 0
             height: Config.osd.height
-            radius: Config.rounding
             width: Config.osd.width
 
             ColumnLayout {

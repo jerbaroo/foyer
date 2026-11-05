@@ -390,20 +390,9 @@ Scope {
     }
 
     // Notification center history view.
-    PanelWindow {
-        // Own layer namespace so Hyprland's blur rule (see hyprland.nix) applies
-        // the same liquid-glass blur as the menu bar and launcher.
-        WlrLayershell.namespace: Config.layers.notifications
-
-        anchors {
-            bottom: true
-            left: true
-            right: true
-            top: true
-        }
-        color: "transparent"
-        exclusionMode: ExclusionMode.Ignore
-        focusable: root.centerOpen // Required for the keyboard shortcut.
+    OverlayWindow {
+        focusable: root.centerOpen
+        layerNamespace: Config.layers.notifications
         visible: root.centerOpen
 
         MouseArea {
@@ -419,7 +408,7 @@ Scope {
             sequence: "Escape"
         }
 
-        Rectangle {
+        PanelSurface {
             anchors {
                 right: parent.right
                 rightMargin: Config.notification.right
@@ -427,15 +416,9 @@ Scope {
                 // Clear the menu bar (see FoyerConfig), rather than overlapping it.
                 topMargin: Config.notification.top
             }
-            border.color: Config.accent
             border.width: Config.notificationCenterBorderSize
-            // Near-transparent glass, matching the bar and launcher, so the
-            // Hyprland blur rule shows through. The full-screen dismiss layer
-            // stays fully transparent so only this panel is blurred.
-            color: Config.glass
             implicitHeight: Math.min(centerColumn.implicitHeight + 32, Math.max(0, parent.height - 2 * Config.notification.top))
             implicitWidth: 512
-            radius: Config.notification.radius
 
             // Trap mouse clicks, to avoid bubbling up to the dismiss layer.
             MouseArea {

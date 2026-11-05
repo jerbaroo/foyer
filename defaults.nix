@@ -54,6 +54,7 @@
     launcher = "foyer-launcher";
     notifications = "foyer-notifications";
     osd = "foyer-osd";
+    text = "foyer-text";
   };
   layout = rec {
     borderWidthPx = 2;
