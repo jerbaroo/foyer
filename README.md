@@ -119,7 +119,7 @@ wayland.windowManager.hyprland.settings.layer_rule = [
 
 ### Control commands
 
-Each surface supports `show`, `hide`, and `toggle`. These commands control
+The bar, launcher, and notification center support `show`, `hide`, and `toggle`. These commands control
 running instances; they don't start services. Hiding the bar keeps
 notifications, the OSD, and sleep/lock inhibitors running.
 
@@ -131,15 +131,17 @@ foyer notifications toggle
 
 `foyer text` reads standard input to EOF and opens a scrollable plain-text panel.
 It preserves whitespace and displays markup literally. Press Escape or click
-outside the panel to close it. Each invocation opens its own viewer and waits
-until it is dismissed; no service is required.
+outside the panel to hide it. The command sends the text to the running
+`foyer-text` service and returns immediately. Sending more text replaces the
+current content and opens the same overlay again.
 
 ```bash
 printf 'SUPER + RETURN    Terminal\nSUPER + Q         Close window\n' | foyer text
 foyer text < keybindings-help.txt
 ```
 
-During development, use `python cli.py text` inside `nix develop`.
+During development, start `quickshell -p quickshell/text.qml` inside `nix develop`,
+then pipe text to `python cli.py text` from another development shell.
 
 `foyer lock` starts a minimal lock screen using the host's `login` PAM service.
 It covers every monitor and uses your shell's colours and font. Type your password
@@ -182,8 +184,8 @@ so by default](https://wiki.hypr.land/Hypr-Ecosystem/hypridle/) with
 ### Installed resources
 
 Foyer installs its configuration under `$XDG_CONFIG_HOME/foyer` (normally
-`~/.config/foyer`). Its user services are `foyer-bar`, `foyer-launcher`, and
-`foyer-server`. Layer namespaces use the `foyer-` prefix and are exported
+`~/.config/foyer`). Its user services are `foyer-bar`, `foyer-launcher`,
+`foyer-server`, and `foyer-text`. Layer namespaces use the `foyer-` prefix and are exported
 through `programs.foyer.layers`.
 
 ## Development

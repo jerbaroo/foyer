@@ -68,7 +68,7 @@ def lock() -> None:
 
 @cli.command()
 def text() -> None:
-    """Display plain text from standard input until dismissed."""
+    """Show plain text from standard input in the running text viewer."""
     if click.get_text_stream("stdin").isatty():
         raise click.UsageError("Pipe text to this command or redirect a file into it.")
     try:
@@ -76,8 +76,7 @@ def text() -> None:
             shutil.copyfileobj(click.get_binary_stream("stdin"), source)
             source.flush()
             result = subprocess.run(
-                command("text"),
-                env={**os.environ, "FOYER_TEXT_FILE": source.name},
+                command("text", "ipc", "call", "text", "setShown", source.name),
                 stdin=subprocess.DEVNULL,
             )
     except OSError as error:

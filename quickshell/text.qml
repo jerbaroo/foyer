@@ -9,21 +9,47 @@ import FoyerConfig 1.0
 import qs.common
 
 Scope {
+    id: root
+
+    property string content: ""
+    property bool shown: false
+
     FileView {
         id: source
+    }
 
-        path: Quickshell.env("FOYER_TEXT_FILE")
-        onLoadFailed: Qt.exit(1)
+    IpcHandler {
+        target: "text"
+
+        function setShown(path: string): void {
+            source.path = path;
+            source.waitForJob();
+            if (source.loaded) {
+                root.content = source.text();
+                root.shown = true;
+            }
+            source.path = "";
+        }
+
+        function setHidden(): void {
+            root.shown = false;
+        }
     }
 
     OverlayWindow {
         id: window
 
         layerNamespace: Config.layers.text
+        visible: root.shown
+
+        Shortcut {
+            onActivated: root.shown = false
+            sequence: "Escape"
+        }
 
         MouseArea {
             anchors.fill: parent
-            onClicked: Qt.quit()
+            onClicked: root.shown = false
         }
 
         PanelSurface {
@@ -48,11 +74,9 @@ Scope {
                     font.pixelSize: Config.font.pixelSize.small
                     readOnly: true
                     selectByMouse: true
-                    text: source.text()
+                    text: root.content
                     textFormat: TextEdit.PlainText
                     wrapMode: TextEdit.NoWrap
-
-                    Keys.onEscapePressed: Qt.quit()
                 }
             }
         }

@@ -70,6 +70,7 @@ in
         BindsTo = [ "graphical-session.target" ];
       };
     };
+    systemd.user.services.foyer-text = makeService "Foyer Text Viewer" "text";
     xdg.configFile."foyer" = {
       recursive = true;
       source = configDir;
